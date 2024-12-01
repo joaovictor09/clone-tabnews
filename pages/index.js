@@ -3,7 +3,7 @@ function Home() {
     <>
       <h1>Bateu aí?</h1>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;
