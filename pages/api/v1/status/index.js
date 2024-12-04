@@ -15,12 +15,13 @@ async function status(request, response) {
     databaseMaxConnectionsResult.rows[0].max_connections,
   );
 
-  const databaseUsedConnectionsActiveResult = await database.query(
-    "SELECT count(*) FROM pg_stat_activity WHERE datname = 'local_db' AND state = 'active';",
-  );
-  const databaseUsedConnectionsActiveValue = parseInt(
-    databaseUsedConnectionsActiveResult.rows[0].count,
-  );
+  const databaseName = process.env.POSTGRES_DB;
+  const databaseUsedConnectionsActiveResult = await database.query({
+    text: "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1 AND state = 'active';",
+    values: [databaseName],
+  });
+  const databaseUsedConnectionsActiveValue =
+    databaseUsedConnectionsActiveResult.rows[0].count;
 
   response.status(200).json({
     updated_at: updatedAt,
