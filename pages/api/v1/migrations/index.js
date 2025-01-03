@@ -24,7 +24,9 @@ async function migrations(request, response) {
     };
 
     if (request.method === "GET") {
-      const pendingMigrations = await migrationsRunner(defaultMigrationsOptions);
+      const pendingMigrations = await migrationsRunner(
+        defaultMigrationsOptions,
+      );
 
       return response.status(200).json(pendingMigrations);
     }
@@ -41,12 +43,10 @@ async function migrations(request, response) {
 
       return response.status(200).json(migratedMigrations);
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
     return response.status(500).json({ error: error.message });
-  }
-  finally {
+  } finally {
     await dbClient.end();
   }
 }
