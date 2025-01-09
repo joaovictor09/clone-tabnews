@@ -16,19 +16,17 @@ async function waitForAllServices() {
         );
       }
 
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/status");
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-        await response.json();
-      } catch (error) {
-        throw error;
+      const response = await fetch("http://localhost:3000/api/v1/status");
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
       }
+      await response.json();
     }
   }
 }
 
-export default {
+const orchestrator = {
   waitForAllServices,
 };
+
+export default orchestrator;
